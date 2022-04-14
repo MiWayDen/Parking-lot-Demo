@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Parking Lot Demo</string>
     <string name="title_activity_google_maps">GoogleMapsActivity</string>
+    <string name="title_activity_parking_maps">ParkingMapsActivity</string>
 </resources>

@@ -48,7 +48,7 @@
         android:layout_height="30dp"
         android:background="@color/teal_700"
         android:onClick="getNotes"
-        android:text="計費規則 : 點擊獲取收費資訊"
+        android:text="點擊獲取收費資訊"
         android:textColor="@color/black"
         android:textSize="10sp"
         app:backgroundTint="@null"

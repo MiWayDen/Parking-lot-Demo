@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.VisibleForTesting
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
@@ -24,9 +25,10 @@ import java.net.URL
 
 class MainActivity : AppCompatActivity() {
     private lateinit var rtParkingLotData: String
-    var bigArea: ArrayList<String> = arrayListOf("")
+    var bigArea: ArrayList<String> = arrayListOf()
     var taichung: HashMap<String, MutableList<String>> = hashMapOf()
     val TAG = MainActivity::class.java.simpleName
+    val mContex = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -36,8 +38,7 @@ class MainActivity : AppCompatActivity() {
         //recycler view
         recycler.setHasFixedSize(true)
         recycler.layoutManager = LinearLayoutManager(this)
-        recycler.adapter = FunctionAdapter()
-        FunctionAdapter().notifyDataSetChanged()
+
 
 
         //連線即時剩餘車位
@@ -51,6 +52,11 @@ class MainActivity : AppCompatActivity() {
                 bigArea.add(parkingName.get(i).Name)
             }
             Log.d(TAG, "bigArea:${bigArea}: ")
+
+            runOnUiThread {
+                recycler.adapter = FunctionAdapter()
+                FunctionAdapter().notifyDataSetChanged()
+            }
 
             //以hashMap存放-測試用
 /*            for (o in 0..parkingName.size-1) {
@@ -74,6 +80,8 @@ class MainActivity : AppCompatActivity() {
                     updateTime.text = "更新時間:$upTime"
                 }
             }
+//        getParkingPositionMap()
+//        Log.d(TAG, "${getParkingPositionMap()} ");
 
         }
         //recyclerView
@@ -88,7 +96,7 @@ class MainActivity : AppCompatActivity() {
             override fun onBindViewHolder(holder: FunctionHolder, position: Int) {
                 holder.area.text = bigArea.get(position)
                 holder.itemView.setOnClickListener {
-                    funtionClicked(position)
+                    functionClicked(position)
                 }
             }
 
@@ -98,13 +106,13 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        private fun funtionClicked(position: Int) {
+        private fun functionClicked(position: Int) {
             val intent = Intent(this, DetailArea::class.java)
             var click = position
             intent.putExtra("click", click)
             intent.putExtra("bigArea", bigArea)
             intent.putExtra("rtParkingLotData", rtParkingLotData)
-            for (i in 1..bigArea.size) {
+            for (i in 0..bigArea.size) {
                 if (i == position) {
                     startActivity(intent)
                 }
@@ -114,12 +122,12 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "click:$c ");
         }
 
-
     }
 
     class FunctionHolder(view: View) : RecyclerView.ViewHolder(view) {
         var area = view.area
     }
+
 
 
 

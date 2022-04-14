@@ -6,6 +6,7 @@ import org.json.JSONArray
 import java.util.ArrayList
 
 class ParkingInformation(var rtParkingLotData: String,val bigArea: ArrayList<String>,var wantedInformation: ArrayList<String>) {
+    var gpsLatLong :HashMap<String,Double> = hashMapOf()
     var taichung :HashMap<String,ArrayList<String>> = hashMapOf()
     var taichungAvailableCar :HashMap<String,ArrayList<String>> = hashMapOf()
     fun getParkingInformation(): HashMap<String, ArrayList<String>> {
@@ -46,5 +47,8 @@ class ParkingInformation(var rtParkingLotData: String,val bigArea: ArrayList<Str
 
         return taichungAvailableCar
     }
-}
+
+
+    }
+
 
