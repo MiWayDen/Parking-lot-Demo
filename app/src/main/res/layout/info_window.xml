@@ -58,15 +58,13 @@
             android:id="@+id/info_button_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/teal_700"
-            android:backgroundTint="@null"
+            android:background="#3F51B5"
             android:onClick="getMoney"
             android:text="點擊獲取收費資訊"
             android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/info_title"
-            app:layout_constraintVertical_bias="0.142" />
+            app:backgroundTint="@null"
+            app:layout_constraintBottom_toBottomOf="@+id/info_avaiable_car"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
 

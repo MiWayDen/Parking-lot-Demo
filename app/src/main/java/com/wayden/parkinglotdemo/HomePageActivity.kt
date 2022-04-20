@@ -36,7 +36,7 @@ class HomePageActivity : AppCompatActivity() ,CoroutineScope{
         gps_button.setOnClickListener {_ -> startActivity(goGoogleMap) }
 
         val goRealtime = Intent(this,MainActivity::class.java)
-        realtime_button.setOnClickListener { _->startActivity(goRealtime) }
+        realtime_button.setOnClickListener {_ ->startActivity(goRealtime) }
 
     }
 

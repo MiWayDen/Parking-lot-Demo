@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
     var bigArea: ArrayList<String> = arrayListOf()
     var taichung: HashMap<String, MutableList<String>> = hashMapOf()
     val TAG = MainActivity::class.java.simpleName
-    val mContex = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -39,9 +38,16 @@ class MainActivity : AppCompatActivity() {
         recycler.setHasFixedSize(true)
         recycler.layoutManager = LinearLayoutManager(this)
 
-
-
         //連線即時剩餘車位
+        getParkingInfo()
+
+        refresh.setOnClickListener {
+            bigArea = arrayListOf()
+            getParkingInfo() }
+
+        }
+
+    private fun getParkingInfo() {
         CoroutineScope(Dispatchers.IO).launch {
             rtParkingLotData =
                 URL("https://motoretag.taichung.gov.tw/DataAPI/api/ParkingSpotListAPI").readText()
@@ -58,33 +64,17 @@ class MainActivity : AppCompatActivity() {
                 FunctionAdapter().notifyDataSetChanged()
             }
 
-            //以hashMap存放-測試用
-/*            for (o in 0..parkingName.size-1) {
-                var detailArea: ArrayList<String> = arrayListOf()
-                val parkingArray = JSONArray(rtParkingLotData).getJSONObject(o).getJSONArray("ParkingLots")
-                for (i in 0..parkingArray.length()-1) {
-                    var area = parkingArray.getJSONObject(i).getString("Position")
-                    detailArea.add(area)
-                }
-                taichung.put(bigArea.get(o),detailArea)
+            //抓取更新時間 :因更新時間在jsonArray內的array, 需要多做一次轉換才能抓到時間
+            val innerArray =
+                JSONArray(rtParkingLotData).getJSONObject(0).getString("ParkingLots")
+            val upTime = JSONArray(innerArray).getJSONObject(0).getString("Updatetime")
+            runOnUiThread {
+                updateTime.text = "更新時間:$upTime"
             }
-            for (i in 0..bigArea.size-1) {
-                Log.d(TAG, "大區域:${bigArea.get(i)} 停車場:${taichung.get(bigArea.get(i))} ")
-            }*/
-
-                //抓取更新時間 :因更新時間在jsonArray內的array, 需要多做一次轉換才能抓到時間
-                val innerArray =
-                    JSONArray(rtParkingLotData).getJSONObject(0).getString("ParkingLots")
-                val upTime = JSONArray(innerArray).getJSONObject(0).getString("Updatetime")
-                runOnUiThread {
-                    updateTime.text = "更新時間:$upTime"
-                }
-            }
-//        getParkingPositionMap()
-//        Log.d(TAG, "${getParkingPositionMap()} ");
-
         }
-        //recyclerView
+    }
+
+    //recyclerView
         inner class FunctionAdapter : RecyclerView.Adapter<FunctionHolder>() {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FunctionHolder {
                 return FunctionHolder(

@@ -40,9 +40,6 @@
             android:exported="false"
             android:label="@string/title_activity_parking_maps" />
         <activity
-            android:name=".MapActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity

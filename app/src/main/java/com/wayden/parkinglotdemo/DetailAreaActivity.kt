@@ -49,25 +49,15 @@ class DetailArea : AppCompatActivity() {
         bigAreaPosition = test.getParkingInformation()
         //剩餘車位會有負數值(-1)需另外拉出來處理
         bigAreaPositionAvailableCar = test.getAvailableCar()
-
         //標題
         realTimeTitle.text = ("${bigArea.get(clickPosition)}")
+
+        var availableCar = ""
+
     }
 
     //重新整理按鈕
-    fun refreshTime(view: View){
-        CoroutineScope(Dispatchers.IO).launch {
-            rtParkingLotData = URL("https://motoretag.taichung.gov.tw/DataAPI/api/ParkingSpotListAPI").readText()
-            val neededList = arrayListOf<String>("Updatetime")
-            val test = ParkingInformation(rtParkingLotData!!,bigArea,neededList)
-            bigAreaPosition = test.getParkingInformation()
-            Log.d(TAG, "更新時間:${bigAreaPosition.get("${bigArea.get(clickPosition)}Updatetime")}");
-            runOnUiThread{
-//                detailRecycler.adapter = DetailAreaAdapter()
-                DetailAreaAdapter().notifyDataSetChanged()
-            }
-        }
-    }
+
 
 
     inner class DetailAreaAdapter :RecyclerView.Adapter<DetailViewHolder>() {

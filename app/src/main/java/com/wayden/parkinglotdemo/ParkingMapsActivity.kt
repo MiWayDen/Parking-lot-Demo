@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
 import com.wayden.parkinglotdemo.databinding.ActivityParkingMapsBinding
+import kotlinx.android.synthetic.main.activity_parking_maps.*
 import kotlinx.android.synthetic.main.info_window.*
 import kotlinx.android.synthetic.main.recycler_from_detail_area.*
 import java.util.ArrayList
@@ -76,12 +77,9 @@ class ParkingMapsActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.On
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-/*        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))*/
         getGPSLocation()
         addParkingMarker()
+        //預設位置於新光三越台中港店
         val market = LatLng (24.165261,120.643679)
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(market,15F))
     }
@@ -162,6 +160,9 @@ class ParkingMapsActivity : AppCompatActivity(), OnMapReadyCallback,GoogleMap.On
                             locationResult.lastLocation.longitude
                         )
                         mMap.isMyLocationEnabled = true
+                        HomeButton.setOnClickListener{_->
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15F))
+                        }
                         //產生預設定位位置
 //                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,15F))
 
